@@ -1,0 +1,17 @@
+{
+  "Name": "iMSIPConfig",
+  "DependsOn": ["imslib-csharp"],
+  "OutputDir": "dist",
+  "Tasks": [
+    {
+      "Name": "Restore",
+      "Script": "dotnet.exe",
+      "Args": ["restore"]
+    },
+    {
+      "Name": "Build",
+      "Script": "build.ps1",
+      "Args": []
+    }
+  ]
+}
