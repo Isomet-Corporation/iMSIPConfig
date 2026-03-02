@@ -2,7 +2,7 @@
   "Name": "iMSIPConfig",
   "DependsOn": ["imslib-csharp"],
   "OutputDir": "bin/Release",
-  "ExportDir": "util/iMSIPConfig.exe",
+  "ExportDir": "util/iMSIPConfig",
   "SignFiles": ["iMSIPConfig.exe", "iMSNET.dll"],
   "Tasks": [
     {
