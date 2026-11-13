@@ -94,12 +94,32 @@ namespace iMSIPConfig
         {
             var items = listView1.Items;
             items.Clear();
+            listView1.ShowItemToolTips = true;
             foreach (var dev in list)
             {
-                String[] separator = { ":" };
-                String[] portlist = dev.ConnPort().Split(separator, 2, StringSplitOptions.RemoveEmptyEntries);
-                Array.Resize(ref portlist, 2); // Ensure there are two items
-                items.Add(new ListViewItem(portlist));
+                // ConnPort() is expected to be "<serial>:<port>". Don't discard empty
+                // fields, otherwise a blank serial shifts the port into the serial column.
+                String connPort = dev.ConnPort() ?? String.Empty;
+                String serial;
+                String port;
+                int sep = connPort.IndexOf(':');
+                if (sep >= 0)
+                {
+                    serial = connPort.Substring(0, sep);
+                    port = connPort.Substring(sep + 1);
+                }
+                else
+                {
+                    // No separator: treat the whole string as the port, serial unknown
+                    serial = String.Empty;
+                    port = connPort;
+                }
+
+                if (String.IsNullOrWhiteSpace(serial)) serial = "(unknown)";
+
+                var item = new ListViewItem(new String[] { serial, port });
+                item.ToolTipText = connPort; // Raw value reported by the library, for diagnostics
+                items.Add(item);
             }
 
         }
